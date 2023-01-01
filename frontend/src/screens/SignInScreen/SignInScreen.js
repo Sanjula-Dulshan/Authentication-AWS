@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  TextInput,
-  Alert,
 } from "react-native";
 import Logo from "../../../assets/images/Logo_1.png";
 import CustomInput from "../../components/CustomInput/CustomInput";
@@ -33,6 +30,18 @@ const SignInScreen = () => {
 
   const onForgotPasswordPressed = () => {
     navigation.navigate("ForgotPassword");
+  };
+
+  const onSignInFacebook = () => {
+    console.warn("onSignInFacebookPressed");
+  };
+
+  const onSignInGoogle = () => {
+    console.warn("onSignInGooglePressed");
+  };
+
+  const onSignInApple = () => {
+    console.warn("onSignInApplePressed");
   };
 
   const onSignUpPress = () => {
@@ -69,15 +78,16 @@ const SignInScreen = () => {
           }}
         />
         <CustomButton
-          text="Forgot password?"
-          onPress={onForgotPasswordPressed}
-          type="FORGOT"
-        />
-        <CustomButton
           text={loading ? "Loading..." : "Sign In"}
           onPress={handleSubmit(onSignInPressed)}
         />
-        <View style={{ marginLeft: "10%" }}>
+        <CustomButton
+          text="Forgot password?"
+          onPress={onForgotPasswordPressed}
+          type="TERTIARY"
+        />
+
+        {/* <View style={{ marginLeft: "10%" }}>
           <View style={styles.section}>
             <Text style={styles.text}>Don't have an account?</Text>
             <CustomButton
@@ -86,7 +96,30 @@ const SignInScreen = () => {
               type="TERTIARY"
             />
           </View>
-        </View>
+        </View> */}
+        <CustomButton
+          text="Sign In with Facebook"
+          onPress={onSignInFacebook}
+          bgColor="#E7EAF4"
+          fgColor="#4765A9"
+        />
+        <CustomButton
+          text="Sign In with Google"
+          onPress={onSignInGoogle}
+          bgColor="#FAE9EA"
+          fgColor="#DD4D44"
+        />
+        <CustomButton
+          text="Sign In with Apple"
+          onPress={onSignInApple}
+          bgColor="#E3E3E3"
+          fgColor="#363636"
+        />
+        <CustomButton
+          text="Don't have an account? Create one"
+          onPress={onSignUpPress}
+          type="TERTIARY"
+        />
       </View>
     </ScrollView>
   );
@@ -99,10 +132,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "70%",
-    marginBottom: "20%",
+    marginBottom: "25%",
     marginTop: "20%",
     maxWidth: 300,
-    maxHeight: 200,
+    maxHeight: 100,
   },
   section: {
     flexDirection: "row",

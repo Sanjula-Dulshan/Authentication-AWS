@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
 
   container_PRIMARY: {
     backgroundColor: "#FBBC05",
-    elevation: 7,
   },
 
   container_SECONDARY: {
@@ -65,15 +64,10 @@ const styles = StyleSheet.create({
   },
 
   text_TERTIARY: {
-    color: "#FBBC05",
-    marginLeft: "35%",
+    color: "grey",
   },
   text_FOURTH: {
     color: "#FBBC05",
-  },
-  text_FORGOT: {
-    alignSelf: "flex-end",
-    color: "#000000",
   },
 });
 
