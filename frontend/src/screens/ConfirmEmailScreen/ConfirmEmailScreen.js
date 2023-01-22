@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -7,18 +7,18 @@ import { useForm } from "react-hook-form";
 import { useRoute } from "@react-navigation/native";
 
 const ConfirmEmailScreen = () => {
+  const [code, setCode] = useState("");
   const route = useRoute();
-  const { control, handleSubmit, watch } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: { username: route?.params?.username },
   });
-
-  const username = watch("username");
 
   const navigation = useNavigation();
 
   const onConfirmPressed = async (data) => {
     try {
       //await Auth.confirmSignUp(data.username, data.code);
+      console.warn("Confirm sign up successful");
       navigation.navigate("SignIn");
     } catch (e) {
       Alert.alert("Oops", e.message);
@@ -56,6 +56,8 @@ const ConfirmEmailScreen = () => {
           name="code"
           control={control}
           placeholder="Enter your confirmation code"
+          value={code}
+          setValue={setCode}
           rules={{
             required: "Confirmation code is required",
           }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -6,14 +6,15 @@ import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 const NewPasswordScreen = () => {
+  const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const { control, handleSubmit } = useForm();
-
   const navigation = useNavigation();
 
   const onSubmitPressed = async (data) => {
     try {
       //await Auth.forgotPasswordSubmit(data.username, data.code, data.password);
-      navigation.navigate("SignIn");
+      navigation.navigate("Home");
     } catch (e) {
       Alert.alert("Oops", e.message);
     }
@@ -29,16 +30,11 @@ const NewPasswordScreen = () => {
         <Text style={styles.title}>Reset your password</Text>
 
         <CustomInput
-          placeholder="Username"
-          name="username"
-          control={control}
-          rules={{ required: "Username is required" }}
-        />
-
-        <CustomInput
-          placeholder="Code"
+          placeholder="Confirmation code"
           name="code"
           control={control}
+          value={code}
+          setValue={setCode}
           rules={{ required: "Code is required" }}
         />
 
@@ -47,6 +43,8 @@ const NewPasswordScreen = () => {
           name="password"
           control={control}
           secureTextEntry
+          value={newPassword}
+          setValue={setNewPassword}
           rules={{
             required: "Password is required",
             minLength: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useForm } from "react-hook-form";
 
 const ForgotPasswordScreen = () => {
+  const [username, setUsername] = useState("");
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
 
@@ -31,6 +32,8 @@ const ForgotPasswordScreen = () => {
           name="username"
           control={control}
           placeholder="Username"
+          value={username}
+          setValue={setUsername}
           rules={{
             required: "Username is required",
           }}

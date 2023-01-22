@@ -13,6 +13,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 
 const SignInScreen = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
