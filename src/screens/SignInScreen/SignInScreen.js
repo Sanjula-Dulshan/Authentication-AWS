@@ -1,16 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
+import { Auth } from "aws-amplify";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
-  View,
+  Alert,
   Image,
-  StyleSheet,
-  useWindowDimensions,
   ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
 } from "react-native";
 import Logo from "../../../assets/images/Logo_1.png";
-import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import { useNavigation } from "@react-navigation/native";
-import { useForm, Controller } from "react-hook-form";
+import CustomInput from "../../components/CustomInput/CustomInput";
 
 const SignInScreen = () => {
   const [userName, setUserName] = useState("");
@@ -26,9 +28,21 @@ const SignInScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const onSignInPressed = () => {
+  const onSignInPressed = async (data) => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
     // validate user
-    navigation.navigate("Home");
+    try {
+      const res = await Auth.signIn(data.username, data.password);
+      console.warn("res", res);
+    } catch (e) {
+      Alert.alert("Oops", e.message);
+      console.warn("Error", e.message);
+    }
+    setLoading(false);
   };
 
   const onForgotPasswordPressed = () => {

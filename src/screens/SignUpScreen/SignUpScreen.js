@@ -1,29 +1,36 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
-import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/core";
+import { Auth } from "aws-amplify";
+import React from "react";
 import { useForm } from "react-hook-form";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import CustomButton from "../../components/CustomButton";
+import CustomInput from "../../components/CustomInput";
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   const { control, handleSubmit, watch } = useForm();
   const pwd = watch("password");
   const navigation = useNavigation();
 
   const onRegisterPressed = async (data) => {
-    const { username } = data;
+    const { name, username, password, email } = data;
+
     try {
-      navigation.navigate("ConfirmEmail", { username });
+      const res = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+          name,
+          preferred_username: username,
+        },
+      });
+      console.warn("res", res);
     } catch (e) {
       Alert.alert("Oops", e.message);
+      console.warn("Error", e.message);
     }
   };
 
@@ -56,10 +63,17 @@ const SignUpScreen = () => {
         <Text style={styles.title}>Sign Up</Text>
 
         <CustomInput
+          name="name"
+          control={control}
+          placeholder="Name"
+          rules={{
+            required: "Name is required",
+          }}
+        />
+
+        <CustomInput
           name="username"
           control={control}
-          value={userName}
-          setValue={setUserName}
           placeholder="Username"
           rules={{
             required: "Username is required",
@@ -77,8 +91,6 @@ const SignUpScreen = () => {
         <CustomInput
           name="email"
           control={control}
-          value={email}
-          setValue={setEmail}
           placeholder="Email"
           rules={{
             required: "Email is required",
@@ -89,8 +101,6 @@ const SignUpScreen = () => {
         <CustomInput
           name="password"
           control={control}
-          value={password}
-          setValue={setPassword}
           placeholder="Password"
           secureTextEntry
           rules={{
@@ -104,8 +114,6 @@ const SignUpScreen = () => {
         <CustomInput
           name="password-repeat"
           control={control}
-          value={confirmPassword}
-          setValue={setConfirmPassword}
           placeholder="Repeat Password"
           secureTextEntry
           rules={{
@@ -114,7 +122,10 @@ const SignUpScreen = () => {
           }}
         />
 
-        <CustomButton text="Register" onPress={onRegisterPressed} />
+        <CustomButton
+          text="Register"
+          onPress={handleSubmit(onRegisterPressed)}
+        />
         <Text style={styles.text}>
           By registering, you agree to our{" "}
           <Text style={styles.link} onPress={onTermOfServicePressed}>

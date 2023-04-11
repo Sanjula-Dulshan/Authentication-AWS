@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
-import Navigation from "./src/navigation";
-import { NativeBaseProvider } from "native-base";
 import { Amplify } from "aws-amplify";
+import { NativeBaseProvider } from "native-base";
+import { StyleSheet } from "react-native";
 import awsconfig from "./src/aws-exports";
+import Navigation from "./src/navigation";
 
 Amplify.configure(awsconfig);
 
